@@ -1,0 +1,35 @@
+    <div class="container-fluid">
+      <!-- my content -->
+      <div class="row bg-light">
+        <div class="col-2">
+          <p><h5>ID: <span  id="id">{{id}}</span></h5></p>
+        </div>
+        <div class="col-sm">
+          <p><h5>File Name: <span id="file_name" class="text-primary">{{file_name}}</span></h5></p>
+        </div>
+        <div class="col-sm">
+          <p><h5>Screen Name: <span id="screen_name">{{SCREEN_NAME}}</span></h5></p>
+        </div>
+        <div class="col-sm">
+          <p><h5>Session Id: <span id="session_id">{{SESSUUID}}</span></h5></p>
+        </div>
+      </div>
+      <div class="container-fluid row">
+        <div id="js-canvas" class="col-md" style="height:80vh"></div>
+      </div>
+    <!-- my content -->
+    </div>
+    
+
+    <!-- components -->
+<!-- hidden button -->
+<button id="btn_modal_form" style="display: none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form"></button> -->
+<!-- <button id="btn_modal_form" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form">click</button> -->
+
+<!-- modal form -->
+<div class="row">
+  <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+    <div id="div-components"></div>
+  </div>
+</div>
+
