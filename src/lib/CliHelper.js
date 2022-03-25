@@ -77,11 +77,11 @@ class CliHelper {
     retObj = {
       'element_id': elm.id,
       'element_type': elm.type,
-      'name': elm.businessObject.name,
+      'element_name': elm.businessObject.name,
       'introduction': docStr,
-      'stakeholder_id': elm.parent.businessObject.id,
-      'stakeholder_type': elm.parent.businessObject.$type,
-      'stakeholder_name': elm.parent.businessObject.name
+      'stake_holder_bpmn_id': elm.parent.businessObject.id,
+      'stake_holder_bpmn_type': elm.parent.businessObject.$type,
+      'stake_holder_bpmn_name': elm.parent.businessObject.name
     }
     return retObj
   }
@@ -155,6 +155,7 @@ class CliHelper {
       docNodeAry.push(tempNode)
     }
     docNodeAry[0]['text'] = JSON.stringify(jsonObj);
+    return docNodeAry[0]['text']
   }
   
   /********
@@ -167,11 +168,11 @@ class CliHelper {
    * 6. getElementBPropsExtensionsObject(id: string) : object */
   async getElementBPropsExtensionsObject(id) {
     let retObj = {};
-    let jsonStr = this.getElementBPropsExtensions(id);
+    let jsonStr = await this.getElementBPropsExtensions(id);
     if(jsonStr == ""){
       retObj = {}
     } else {
-      retObj = JSON.stringify(jsonStr);
+      retObj = JSON.parse(jsonStr);
     }
     return retObj
   }
@@ -185,17 +186,19 @@ class CliHelper {
     // 
     if (aryCONS_TASK_CATEGORY.includes(elm_category)) {
       tempAry = await this.getElemetsIds(elm_category);
+      console.log(tempAry)
       // 
       // If using async/await, can not use Array.map()
       for (let keyObj of tempAry) {
-        console.log(keyObj.id)
+        // console.log(keyObj.id)
         obj = await this.getElementBPropsExtensionsObject(keyObj.id)
         console.log(obj);
-        retAry.push(obj);
-        // obj = {};
+        if (obj){
+          retAry.push(obj);
+        }
       }
     }
-    console.log(retAry)
+    // console.log(retAry)
     return retAry
   }
   

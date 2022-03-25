@@ -61,21 +61,26 @@ const drawCanvas = async (bpmnXML) => {
   }
   // getElements
   let taskElms = await cliHelper.getElementsBProperties('Task');
-  console.log(taskElms)
+  console.log(`taskElms = ${JSON.stringify(taskElms)}`)
   
+  let cxt = "";
+  let jsonObj = {'concern_id': 1};
   
   // element event // not on 'element.dbclick'
   eventBus.on('element.click', 10, async (elm) => {
     // elm.element = the model element
     // elm.gfx = the graphical element
-    console.log('element.click!')
-    console.log(`id = ${elm.element.id}`)
-    let cxt = await cliHelper.getElementBPropsExtensions(elm.element.id);
+    console.log(`element.click! id = ${elm.element.id}`)
+    await cliHelper.setElementBPropsExtensions(elm.element.id, jsonObj);
+    cxt = await cliHelper.getElementBPropsExtensions(elm.element.id);
+    console.log(`line 87: cxt = ${cxt}`);
+    jsonObj.concern_name = 'Integrity';
+    await cliHelper.setElementBPropsExtensions(elm.element.id, jsonObj);
+    cxt = await cliHelper.getElementBPropsExtensions(elm.element.id);
     console.log(cxt);
-    // await cliHelper.setElementBPropsExtensions('SCAN_OK', cxt);
-    // $("#btn_modal_form").trigger("click");
     let aryConcerns = await cliHelper.getElementsBPropsExtensionsObject('Task');
     console.log(aryConcerns)
+    // $("#btn_modal_form").trigger("click");
     
   });
 
