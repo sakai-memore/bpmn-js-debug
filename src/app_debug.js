@@ -17,7 +17,7 @@ import CliHelper from  './lib/CliHelper.js';
 
 // import './style.css';
 	
-// display a diagram: render xml data on canvas
+// display a diagram: render xml data on canvas ------------------ //
 const displayDiagram = async (xml_data) => {
   try {
     // console.log(xml_data);
@@ -30,13 +30,13 @@ const displayDiagram = async (xml_data) => {
   }
 }
 
-// draw canvas: document ready action
+// draw canvas: display diagram and set variables ---------------- //
 const drawCanvas = async (bpmnXML) => {
 
   // import xml into canvas
   await displayDiagram(bpmnXML);
   
-  // get canvas
+  // get diagram objects
   const canvas = bpmnJs.get("canvas");
   const overlays = bpmnJs.get("overlays");
   const eventBus = bpmnJs.get("eventBus");
@@ -50,9 +50,16 @@ const drawCanvas = async (bpmnXML) => {
   window.eventBus = eventBus; // public on window for debug
   window.elementRegistry = elementRegistry; // public on window for debug
   
+  debug(eventBus, elementRegistry);
+
+}
+
+// debug entry for cliHelper
+const debug = async (eventBus, elementRegistry) => {
   // create Helper class
   let cliHelper = new CliHelper(elementRegistry)
   // 
+  // ---------------------------------------debug
   const elKeyAll = await cliHelper.getElemetsIds('Task');
   // console.log(elKeyAll);
   for (let obj of elKeyAll) {
@@ -87,6 +94,29 @@ const drawCanvas = async (bpmnXML) => {
 }
 
 
+const addListener = () => {
+  // // Event- Actions
+  // $("#btn_createNew").on("click", {bpmnModeler: bpmnJs, initialDiagram: initialDiagram, fileName: INITIAL_XML_NAME}, createNew);
+  // $("#lnk_saveLocal").on("click", {bpmnModeler: bpmnJs, fileName: INITIAL_XML_NAME}, saveLocal);
+  $("#btn_saveLocal").on("click", {bpmnModeler: bpmnJs, fileName: INITIAL_XML_NAME}, saveLocal);
+  $(".toggle-panel").on("click", togglePanel);
+  //
+  $("#btn_modal_form").on("click",()=>{
+    console.log('#btn_modal_form clicked!');
+    $("#modal-form").show();
+  });
+  // Event- Actions : drop a file
+  const dropArea = $(EL_DROP_AREA);
+  if (!window.FileList || !window.FileReader) {
+    window.alert(
+      'Looks like you use an older browser that does not support drag and drop. ' +
+      'Try using Chrome, Firefox or the Internet Explorer > 10.');
+  } else {
+    registerFileDrop(dropArea, displayDiagram);
+  }
+
+}
+
 // ------------------------------// entry point
 const root = async () => {
   console.log('// ----------------// start debug!');
@@ -107,25 +137,8 @@ const root = async () => {
     );
   }
   
-  // // Event- Actions
-  // $("#btn_createNew").on("click", {bpmnModeler: bpmnJs, initialDiagram: initialDiagram, fileName: INITIAL_XML_NAME}, createNew);
-  // $("#lnk_saveLocal").on("click", {bpmnModeler: bpmnJs, fileName: INITIAL_XML_NAME}, saveLocal);
-  $("#btn_saveLocal").on("click", {bpmnModeler: bpmnJs, fileName: INITIAL_XML_NAME}, saveLocal);
-  $(".toggle-panel").on("click", togglePanel);
-  //
-  $("#btn_modal_form").on("click",()=>{
-    console.log('#btn_modal_form clicked!');
-    $("#modal-form").show();
-  });
-  // Event- Actions : drop a file
-  const dropArea = $(EL_DROP_AREA);
-  if (!window.FileList || !window.FileReader) {
-    window.alert(
-      'Looks like you use an older browser that does not support drag and drop. ' +
-      'Try using Chrome, Firefox or the Internet Explorer > 10.');
-  } else {
-    registerFileDrop(dropArea, displayDiagram);
-  }
+  // 
+  addListener();
   
   //
   await drawCanvas(bpmnXML);
@@ -153,7 +166,6 @@ const get_instance = (mode) => {
 const MEDIA_PATH = '../../media/xml/';
 // const INITIAL_XML_NAME = 'initialDiagram.bpmn';
 const INITIAL_XML_NAME = 'qr-code.bpmn';
-const TEMP_XML_NAME = 'BP_xxxxx.bpmn';
 
 const EL_CANVAS = "#js-canvas";
 const EL_CANVAS2 = "#js-canvas2";

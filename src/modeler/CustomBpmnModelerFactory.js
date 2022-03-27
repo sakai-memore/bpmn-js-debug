@@ -1,6 +1,7 @@
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import propertiesPanelModule from "bpmn-js-properties-panel";
-import propertiesProviderModule from "bpmn-js-properties-panel/lib/provider/camunda";
+// import propertiesProviderModule from "bpmn-js-properties-panel/lib/provider/camunda";
+import propertiesProviderModule from "bpmn-js-properties-panel/lib/provider/bpmn";
 
 import CliModule from "bpmn-js-cli";
 
@@ -28,12 +29,12 @@ CustomBpmnModelerFactory.prototype.get_instance = (divIdContainer, divIdParentPr
     additionalModules: [
       propertiesPanelModule,
       propertiesProviderModule, 
-      camundaModdleExtensionModule,
+      // camundaModdleExtensionModule,
       CliModule
     ],
-    moddleExtensions: {
-      camunda: customDescriptor
-    },
+    // moddleExtensions: {
+    //   camunda: customDescriptor
+    // },
     keyboard: {
       bindTo: document
     },

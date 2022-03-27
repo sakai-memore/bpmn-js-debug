@@ -50,7 +50,7 @@ class CliHelper {
     })
     // console.log(aryTemp)
     if (isAll) {
-      retAry.push(obj.id)
+      retAry = aryTemp
     } else {
       retAry = aryTemp.filter((obj) => {
         return aryCONS_TASK.includes(obj.type)
@@ -117,6 +117,8 @@ class CliHelper {
     let tempNode = '';
     const elm = this._elReg.get(id);
     const docNodeAry = elm.businessObject.get('documentation');
+    // 
+    // Judge node type and assign it, docNodeAry has one text node
     docNodeAry.some((docNode) => {
       return ( (docNode.textFormat === 'text/plain') && (tempNode = docNode) )
     })
